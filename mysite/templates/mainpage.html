@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Automated Essay Scoring</title>
+
+    <style>
+
+      @font-face {
+        font-family: 'Product Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+      }
+
+      body{
+        font-family: Product Sans;
+        background-image: url('../static/back.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        padding-left: 60px;
+      }
+
+      h1{
+        font-size: 50px;
+        font-family: Product Sans;
+        color: white;
+      }
+
+      textarea{
+        padding: 20px;
+        background-color: transparent;
+        color: white;
+        border-radius: 30px;
+        outline: none;
+      }
+
+
+      h3{
+        color: white;
+        font-family: Product Sans;  
+      }
+
+    </style>
+  </head>
+  <body>
+    <br><br>
+    <h1 >AUTOMATED ESSAY</h1>
+    <h1>SCORING</h1>
+    <br>
+    <form method="POST" id= "form" action="/site" enctype=multipart/form-data>
+      <label style="color: white;" for="title" class="form-label">Enter a docx file:</label><br />
+      {% csrf_token %}
+      <!-- take files here -->
+      <input style="color: white;" type = "file"id = "file" name = "filename" accept=".docx">
+      <br><br><h4 style="font-weight: bold; color: white;">OR</h4>
+      <label style="color: white;" for="title" class="form-label">Enter text here:</label><br />
+      <div class="input-group">
+        <!-- take text here -->
+        <textarea name="rawtext" id="floatingTextarea2" placeholder="Enter Essay Here" rows="11" cols="180"></textarea>
+      </div>
+      <br><br>
+      <label style="color: white; font-size: large;" for="title" class="form-label" >Enter total mark of Essay</label><br />
+      <!-- enter total mark here -->
+      <input type="text" id = "mark" name="var" style="background-color: rgba(255, 255, 255, .05); color: white; font-weight: bold; text-align: center; width: 5rem;">
+      <br><br><br>
+      <button type="submit" class="btn btn-outline-light" >Score my Essay!</button>
+    </form>
+    
+    <br>
+
+    
+    
+    
+    <h3 id="output">
+      <input type="text" placeholder="0" value="{{score}}" disabled style="background-color: rgba(255, 255, 255, .05); color: white; font-weight: bold; text-align: center; width: 5rem;"> out of 
+      <input type="text" placeholder="0" value="{{out}}" disabled style="background-color: rgba(255, 255, 255, .05); color: white; font-weight: bold; text-align: center; width: 5rem;"></h3>
+    <br>
+    <div style="border: 1px solid white; border-radius: 15px; background-color: white; width: 80%; height: 300px;">
+      <!-- put the grade here -->
+      <p style="color: black; font-weight: bold; padding: 5px;">{{mytext}}</p>
+    </div>
+    <!--Exception Handling-->
+  <script>
+    document.getElementById("form").addEventListener('submit', error)
+    function error(event){
+      const file = document.getElementById("file").value  
+      const text = document.getElementById("floatingTextarea2").value
+      const mark = document.getElementById("mark").value
+      if(text==''&& file==''){
+        event.preventDefault()
+        alert('Sorry...! \nYou must choose an option between file or text.')
+      }
+      else if(text && file){
+        event.preventDefault()
+        alert('Sorry...! \nYou should choose only one option between file or text.')
+      }
+      else if (mark==''){
+        event.preventDefault()
+        alert('Please, enter the total marks for evaluation.!')
+      }
+    }
+  </script>
+
+  </body>
+</html>
